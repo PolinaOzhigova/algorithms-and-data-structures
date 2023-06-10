@@ -27,31 +27,6 @@ def get_spanning_tree(graph):
     return result
 
 
-def get_spanning_tree_1(graph: nx.Graph()) -> nx.Graph():
-    edges = []
-    nodes = list(graph.nodes)
-    vis = set()
-    start_node = nodes[0]
-    vis.add(start_node)
-    while len(vis) != len(nodes):
-        min_weight = float(1000000)
-        min_edge = None
-        for node in vis:
-            for nbr, data in graph.adj[node].items():
-                if nbr not in vis:
-                    weight = data['weight']
-                    if weight < min_weight:
-                        min_weight = weight
-                        min_edge = (node, nbr, weight)
-        if min_edge is not None:
-            edges.append(min_edge)
-            vis.add(min_edge[1])
-    result = nx.Graph()
-    result.add_nodes_from(nodes)
-    result.add_weighted_edges_from(edges)
-    return result
-
-
 def get_clusters(spanning_tree: nx.Graph, n_clusters: int) -> list:
     """Splits the tree into n_clusters clusters"""
     sorted_edges = sorted(spanning_tree.edges(data=True), key=lambda x: x[2]['weight'], reverse=True)
@@ -159,6 +134,6 @@ graph = nx.Graph()
 graph.add_nodes_from(nodes)
 graph.add_weighted_edges_from(edges)
 
-spanning_tree = get_spanning_tree_1(graph)
+spanning_tree = get_spanning_tree(graph)
 clusters = get_clusters(spanning_tree, 40)
 print("Amount of clusters:", len(clusters))
