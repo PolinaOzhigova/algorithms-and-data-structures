@@ -1,128 +1,53 @@
-#include "main.h"
+#include "ndarray.h"
 #include <iostream>
-
+#include <cstring>
 using namespace std;
 
-template <typename T>
-void print(T* arr, int sp) {
-    cout << "(";
-    cout << arr[0];
-    for (int i = 1; i < sp; i++) {
-        cout << "; " << arr[i];
-    }
-    cout << ")\n";
-}
+int main(){
+    cout<<"\nInteger Arrays\n";
 
-template <typename T>
-void printMatr(T** arr, int x, int y) {
-    for (int i = 0; i < y; i++) {
-        cout << "|";
-        for (int j = 0; j < x; j++) {
-            cout << arr[i][j] << "\t";
-        }
-        cout << "|\n";
-    }
-}
+    NDArray<int> matrix1(3, 2);
+    NDArray<int> matrix2(2, 3);
+    NDArray<int> matrix3(3, 3);
 
-int main () {
-    cout << "\n<int> Empty array" << endl;
-    NDArray<int> Sarr(2);
-    cout << "(0) = " << Sarr[0][0] << endl;
-    cout << "(1) = " << Sarr[0][1] << endl;
-    cout << "(0) + (1) = " << Sarr[0][0] + Sarr[0][1] << endl;
+    matrix1.fill_with_zeros();
+    matrix2.fill_with_ones();  
+    matrix3.fill_with_rand_numb();
 
-    cout << "\n<int> Null array" << endl;
-    NDArray<int> Narr(2, 'n');
-    cout << "(0) = " << Narr[0][0] << endl;
-    cout << "(1) = " << Narr[0][1] << endl;
-    cout << "(0) + (1) = " << Narr[0][0] + Narr[0][1] << endl;
+    matrix3.matrix_mult(matrix1, matrix2);
+    matrix3.matrix_trans();
+    matrix3.division("");
+    matrix3.division("0");
+    matrix3.division("1");
 
-    cout << "\n<int> Ones array" << endl;
-    NDArray<int> Oarr(2, 'o');
-    cout << "(0) = " << Oarr[0][0] << endl;
-    cout << "(1) = " << Oarr[0][1] << endl;
-    cout << "(0) + (1) = " << Oarr[0][0] + Oarr[0][1] << endl;
+    matrix2[0][0] = 30;
+    matrix2[0][1] += 1;
+    matrix2[1][0] /= 2;
+    matrix2[1][1] *= 3;
+    matrix2[1][2] -= 4;
+    matrix2.print_array();
 
-    cout << "\n<float> Random array from 0 to 10" << endl;
-    NDArray<float> Rarr(2, 2, 'r');
-    printMatr(Rarr.arr, Rarr.x, Rarr.y);
-    cout << endl;
+    cout<<"\n\n\nFloat Arrays\n";
+    NDArray<float> matrix4(2, 3);
+    NDArray<float> matrix5(3, 2);
+    NDArray<float> matrix6(2, 2);
+    matrix6.fill_with_zeros();
+    matrix4.fill_with_ones();  
+    matrix4.fill_with_rand_numb();
+    
+    matrix5.fill_with_rand_numb();
+    matrix6.matrix_mult(matrix4, matrix5);
+    matrix4.matrix_trans();
+    matrix4.division("");
+    matrix4.division("0");
+    matrix4.division("1");
 
-    cout << "Min = " << Rarr.arrMin() << endl;
-    cout << "Max = " << Rarr.arrMax() << endl;
-    cout << "Avg = " << Rarr.arrAvg() << endl;
-    cout << "Min rows = ";
-    print(Rarr.arrMin(0), 2);
-    cout << "Min columns = ";
-    print(Rarr.arrMin(1), 2);
-    cout << "Max rows = ";
-    print(Rarr.arrMax(0), 2);
-    cout << "Max columns = ";
-    print(Rarr.arrMax(1), 2);
-    cout << "Avg rows = ";
-    print(Rarr.arrAvg(0), 2);
-    cout << "Avg columns = ";
-    print(Rarr.arrAvg(1), 2);
-
-    cout << "\n(0)(0) + 0.2 = " << Rarr[0][0] + 0.2 << endl;
-    cout << ">> Rarr[0][0] = 0.1;" << endl;
-    Rarr[0][0] = 0.1;
-    cout << "(0)(0) + 0.2 = " << Rarr[0][0] + 0.2 << "\n\n";
-
-    cout << ">> Rarr += 3.3;" << endl;
-    Rarr += 3.3;
-    printMatr(Rarr.arr, Rarr.x, Rarr.y);
-    cout << endl;
-
-    cout << ">> Rarr -= 1;" << endl;
-    Rarr -= 1;
-    printMatr(Rarr.arr, Rarr.x, Rarr.y);
-    cout << endl;
-
-    cout << ">> Rarr *= 3.3;" << endl;
-    Rarr *= 1.7;
-    printMatr(Rarr.arr, Rarr.x, Rarr.y);
-    cout << endl;
-
-    cout << ">> Rarr /= 3.3;" << endl;
-    Rarr /= 1.7;
-    printMatr(Rarr.arr, Rarr.x, Rarr.y);
-    cout << endl;
-
-    cout << ">> NDArray<float> copy(2, 2);" << endl;
-    NDArray<float> copy(2, 2);
-    cout << ">> copy = Rarr;" << endl;
-    copy = Rarr;
-    printMatr(copy.arr, copy.x, copy.y);
-    cout << endl;
-
-    cout << "Matrix Mult" << endl;
-    NDArray<int> A(2, 3, 'r');
-    cout << "A" << endl;
-    printMatr(A.arr, A.x, A.y);
-    cout << endl;
-
-    NDArray<int> B(3, 2, 'r');
-    cout << "B" << endl;
-    printMatr(B.arr, B.x, B.y);
-    cout << endl;
-
-    NDArray<int> C(3, 3);
-    C.matrMult(A, B);
-    cout << "C = A * B" << endl;
-    printMatr(C.arr, C.x, C.y);
-    cout << endl;
-
-    cout << "Matrix Transpolation" << endl;
-    cout << "A" << endl;
-    printMatr(A.arr, A.x, A.y);
-    cout << endl;
-
-    A.matrTrans();
-
-    cout << "A^T" << endl;
-    printMatr(A.arr, A.x, A.y);
-    cout << endl;
-
+    matrix5[0][0] = 30;
+    matrix5[0][1] += 1;
+    matrix5[1][0] /= 2;
+    matrix5[1][1] *= 3;
+    matrix5[2][1] -= 4.5;
+    matrix5.print_array();
+    cout<<"\n";
     return 0;
 }

@@ -1,6 +1,5 @@
-CC = g++
+CC = mingw32-g++
 CFLAGS = -std=c++11 -Wall -pedantic
-SOURCES = main.cpp
 
 ifeq ($(OS), Windows_NT)
 	RM = del
@@ -13,10 +12,10 @@ endif
 
 
 all:
-	$(CC) $(CFLAGS) -o $(TARGET) $(SOURCES)
+	$(CC) $(CFLAGS) -o $(TARGET) main.cpp
 
 run: all
-	$(TARGET)
+	$(TARGET) 
 
 clean:
 	$(RM) $(TARGET)
