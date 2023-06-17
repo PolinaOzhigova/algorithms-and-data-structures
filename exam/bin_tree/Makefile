@@ -1,14 +1,9 @@
-run: 
-	python	create.py
-	python	inform.py
-
-create:
-	python create.py
-
-inform:
-	python inform.py
-
+generate := python generate_tree.py
+analyze := python analyze_tree.py
+run:
+	$(generate)
+	$(analyze)
 clean:
-	rm -f .tree_graph.png
-	rm -f tree_graph
-	rm -f filename
+	rm tree_graph.png
+	rm tree_graph
+	rm filename

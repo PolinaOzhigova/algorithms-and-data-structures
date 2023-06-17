@@ -82,7 +82,7 @@ def calculate_size(node):
     return 1 + calculate_size(node.left) + calculate_size(node.right)
 
 
-filename = input("Введите имя файла с деревом: ")
+filename = 'tree.txt'
 tree = read_tree_from_file(filename)
 
 tree_size = calculate_size(tree)

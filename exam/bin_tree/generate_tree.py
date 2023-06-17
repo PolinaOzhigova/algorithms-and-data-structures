@@ -65,29 +65,25 @@ def postorder_traversal(node, result):
         result.append(node.value)
 
 def save_to_file(tree, filename):
-    preorder_result = []
-    inorder_result = []
-    postorder_result = []
-
-    preorder_traversal(tree, preorder_result)
-    inorder_traversal(tree, inorder_result)
-    postorder_traversal(tree, postorder_result)
-
-    data = {
-        'preorder': preorder_result,
-        'inorder': inorder_result,
-        'postorder': postorder_result
-    }
-
     with open(filename, 'w') as file:
-        json.dump(data, file)
+        preorder_result = []
+        preorder_traversal(tree, preorder_result)
+        file.write('Preorder: ' + ' '.join(map(str, preorder_result)) + '\n')
+
+        inorder_result = []
+        inorder_traversal(tree, inorder_result)
+        file.write('Inorder: ' + ' '.join(map(str, inorder_result)) + '\n')
+
+        postorder_result = []
+        postorder_traversal(tree, postorder_result)
+        file.write('Postorder: ' + ' '.join(map(str, postorder_result)) + '\n')
 
 
 max_depth = int(input("Введите максимальную глубину дерева: "))
 size = 2*max_depth-1
 tree = generate_random_binary_tree(size, max_depth)
 
-filename = input("Введите имя файла для сохранения дерева: ")
+filename = 'tree.txt'
 save_tree_to_file(tree, filename)
-save_to_file(tree, 'tree.json')
+save_to_file(tree, 'tree1.json')
 print("Дерево сохранено в файл", filename)
