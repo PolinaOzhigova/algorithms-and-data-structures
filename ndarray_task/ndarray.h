@@ -4,6 +4,7 @@
 #include <typeinfo>
 #include <iomanip>
 #include <time.h> 
+
 using namespace std;
 
 template <typename T>
@@ -77,7 +78,8 @@ public:
     {
         return arr[i];
     }
-    NDArray &operator=(T &num)
+
+    NDArray<T> &operator=(T &num)
     {
         for (int i = 0; i < x; i++)
         {
@@ -88,7 +90,8 @@ public:
         }
         return *this;
     }
-    NDArray &operator+=(T &num)
+
+    NDArray<T> &operator+=(T &num)
     {
         for (int i = 0; i < x; i++)
         {
@@ -99,7 +102,8 @@ public:
         }
         return *this;
     }
-    NDArray &operator-=(T &num)
+
+    NDArray<T> &operator-=(T &num)
     {
         for (int i = 0; i < x; i++)
         {
@@ -110,7 +114,8 @@ public:
         }
         return *this;
     }
-    NDArray &operator/=(T &num)
+
+    NDArray<T> &operator/=(T &num)
     {
         for (int i = 0; i < x; i++)
         {
@@ -121,7 +126,8 @@ public:
         }
         return *this;
     }
-    NDArray &operator*=(T &num)
+
+    NDArray<T> &operator*=(T &num)
     {
         for (int i = 0; i < x; i++)
         {
@@ -146,7 +152,7 @@ public:
         cout << "\n";
     }
 
-    void matrix_mult(NDArray &A, NDArray &B)
+    void matrix_mult(NDArray<T> &A, NDArray<T> &B)
     {
         if (A.y != B.x)
         {
@@ -177,16 +183,18 @@ public:
             }
         }
     }
-    void matrix_trans()
+
+    NDArray<T> matrix_trans()
     {
-        NDArray copy(y, x);
-        for (int i = 0; i < x; i++){
-            for (int j = 0; j < y; j++){
+        NDArray<T> copy(y, x);
+        for (int i = 0; i < x; i++)
+        {
+            for (int j = 0; j < y; j++)
+            {
                 copy[j][i] = arr[i][j];
             }
         }
-        copy.print_array();
-        cout << "matrix transposition" << endl;
+        return copy;
     }
 
     void division(string numb)
@@ -194,8 +202,8 @@ public:
 
         if (numb == "0")
         {
-            NDArray<float> mas(1, y);
-            float sum = 0;
+            NDArray<T> mas(1, y);
+            T sum = 0;
             for (int i = 0; i < y; i++)
             {
                 sum = 0;
@@ -211,8 +219,8 @@ public:
 
         if (numb == "1")
         {
-            NDArray<float> mas(1, x);
-            float sum = 0;
+            NDArray<T> mas(1, x);
+            T sum = 0;
             for (int i = 0; i < x; i++)
             {
                 sum = 0;
@@ -228,8 +236,8 @@ public:
 
         if (numb == "")
         {
-            NDArray<float> mas(1, 1);
-            float sum = 0;
+            NDArray<T> mas(1, 1);
+            T sum = 0;
             for (int i = 0; i < x; i++)
             {
                 for (int j = 0; j < y; j++)

@@ -15,7 +15,28 @@ int main(){
     matrix3.fill_with_rand_numb();
 
     matrix3.matrix_mult(matrix1, matrix2);
-    matrix3.matrix_trans();
+
+    cout<<"\n-------\n";
+    matrix3.fill_with_rand_numb();
+    cout<<"\n-------\n";
+    cout<<"\n1 trans\n";
+    NDArray<int> result = matrix3.matrix_trans();
+    result.print_array();
+    cout<<"\n2 trans\n";
+    NDArray<int> result1 = result.matrix_trans();
+    result1.print_array();
+    cout<<"\n-------\n";
+
+    matrix2.fill_with_rand_numb();
+    cout<<"\n-------\n";
+    cout<<"\n1 trans\n";
+    NDArray<int> result3 = matrix2.matrix_trans();
+    result3.print_array();
+    cout<<"\n2 trans\n";
+    NDArray<int> result4 = result3.matrix_trans();
+    result4.print_array();
+    cout<<"\n-------\n";
+
     matrix3.division("");
     matrix3.division("0");
     matrix3.division("1");
