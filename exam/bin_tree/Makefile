@@ -1,9 +1,26 @@
 generate := python generate_tree.py
 analyze := python analyze_tree.py
-run:
+
+RM = rm
+TARGET1 = tree_graph.png
+TARGET2 = tree.json
+TARGET3 = tree1.txt
+
+ifeq ($(OS), Windows_NT)
+	RM = del
+endif
+
+generate:
 	$(generate)
+
+analyze:
 	$(analyze)
+
+all: generate analyze
+
+run: all
+
 clean:
-	rm tree_graph.png
-	rm tree_graph
-	rm filename
+	$(RM) $(TARGET1)
+	$(RM) $(TARGET2)
+	$(RM) $(TARGET3)

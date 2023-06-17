@@ -83,7 +83,7 @@ max_depth = int(input("Введите максимальную глубину д
 size = 2*max_depth-1
 tree = generate_random_binary_tree(size, max_depth)
 
-filename = 'tree.txt'
+filename = 'tree.json'
 save_tree_to_file(tree, filename)
-save_to_file(tree, 'tree1.json')
+save_to_file(tree, 'tree1.txt')
 print("Дерево сохранено в файл", filename)

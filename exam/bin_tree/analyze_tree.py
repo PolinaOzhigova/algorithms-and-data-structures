@@ -82,7 +82,7 @@ def calculate_size(node):
     return 1 + calculate_size(node.left) + calculate_size(node.right)
 
 
-filename = 'tree.txt'
+filename = 'tree.json'
 tree = read_tree_from_file(filename)
 
 tree_size = calculate_size(tree)
