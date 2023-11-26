@@ -1,5 +1,6 @@
+import struct
 from enum import Enum
-import pickle
+import json
 
 
 class Alignment(Enum):
@@ -12,13 +13,53 @@ class Widget():
     def __init__(self, parent):
         self.parent = parent
         self.childrens = []
+
         if self.parent is not None:
             self.parent.add_children(self)
 
     def add_children(self, children: "Widget"):
-        self.childrens.append(children)
+        if children not in self.childrens:
+            self.childrens.append(children)
+
+    def to_json(self):
+        result_json = {
+            "class_name": self.__class__.__name__,
+            "children": [child.to_json() for child in self.childrens]
+        }
+        if isinstance(self, MainWindow):
+            result_json["title"] = self.title
+        elif isinstance(self, Layout):
+            result_json["alignment"] = self.alignment.name
+        elif isinstance(self, LineEdit):
+            result_json["max_length"] = self.max_length
+        elif isinstance(self, ComboBox):
+            result_json["items"] = self.items
+
+        return result_json
 
     @classmethod
+    def from_json(cls, data, parent=None):
+        class_name = data["class_name"]
+        root = None
+
+        if class_name == "MainWindow":
+            root = cls(data["title"])
+        elif class_name == "Layout":
+            alignment = Alignment[data.get("alignment", "HORIZONTAL")]
+            root = Layout(parent, alignment)
+        elif class_name == "LineEdit":
+            max_length = data.get("max_length", 10)
+            root = LineEdit(parent, max_length)
+        elif class_name == "ComboBox":
+            items = data.get("items", [])
+            root = ComboBox(parent, items)
+
+        for child_data in data.get("children", []):
+            child_node = cls.from_json(child_data, parent=root)
+            root.add_children(child_node)
+
+        return root
+
     def __str__(self):
         return f"{self.__class__.__name__}{self.childrens}"
 
@@ -66,8 +107,11 @@ box2 = ComboBox(layout2, ["a", "b", "c"])
 
 print(app)
 
-bts = app.to_binary()
-print(f"Binary data length {len(bts)}")
+app1 = app.to_json()
+print(app1)
 
-new_app = MainWindow.from_binary(bts)
-print(new_app)
+app2 = MainWindow.from_json(app1)
+print(app2)
+
+if str(app) == str(app2):
+    print("Good job")
